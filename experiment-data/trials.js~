@@ -1,0 +1,113 @@
+// create a pair of trials, one that displays the stim and one that displays feedback
+var learning_trial = {
+    timeline: [
+	{type: "html-keyboard-response",
+	 stimulus: function() {
+
+	     // Retrieve the relation
+	     var X = jsPsych.timelineVariable('X', true)
+	     var Y = jsPsych.timelineVariable('Y', true)
+
+	     // assign a relation or null
+	     if (condition == "influences") {var relation = "influences"}
+	     else {var relation = ""}
+
+	     // Apply the labels 
+	     X = assignments[X]
+	     Y = assignments[Y]
+	     
+	     return network_stim(X, Y, relation)
+
+	 },
+	 data: {label: "learning"},
+	 choices: [70, 74]
+	 on_finish: function(data) {
+	     
+	     var response = data.key_press
+	     var valence = jsPsych.timelineVariable('valence', true)
+	     
+	     if (response == 70 && valence==true) {
+		 
+		 cum_response.push(true)
+		 data.correct = true
+		 
+	     }
+	     
+	     else if (response == 74 && valence==false) {
+		 
+		 cum_response.push(true)
+		 data.correct = true
+		 
+	     }
+	     
+	     else {
+		 
+		 cum_response.push(false)
+		 data.correct = false
+		 
+	     }
+	 }
+	},
+	{type: "html-keyboard-response",
+	 stumulus: function() {
+
+	     if(jsPsych.data.get().last(1).values()[0].correct) {
+
+		 return "<p style='color:blue'>Correct!</p>"
+
+	     }
+	     else {
+
+		 return "<p style='color:red'>Incorrect!</p>"
+		 
+	     } 
+
+	 },
+	 data: {label: "feedback"},
+	 trial_duration: function() {
+
+	     if(jsPsych.data.get().last(1).values()[0].correct) {
+
+		 return 500
+
+	     }
+	     else {
+
+		 return 1500
+		 
+	     }
+
+	 },
+	 response_ends_trial: false,
+	 choices: jsPsych.NO_KEYS
+	}
+    ]
+}
+
+var block = {
+    timeline: [learning_trial],
+    timeline_variables: network,
+    randomize_order: true
+}
+
+var block_loop = {
+
+    timeline: [block]
+    loop_function: function() {
+
+	var last_block = cum_response.slice((cum_response.length-network.length), cum_response.length)
+	var sum = last_three.reduce((a, b) => a+b, false)
+	
+	if (sum < network.length) {
+	    
+	    return true
+	}
+	
+	else {
+	    
+	    return false
+	    
+	}
+    }
+
+}

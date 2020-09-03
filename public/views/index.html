@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="jsPsych/jspsych.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-text.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-html-slider-response.js"></script>
+    <script type="text/javascript" src="experiment-data/functions.js"></script>
+    <script type="text/javascript" src="experiment-data/networks.js"></script>
+    <script type="text/javascript" src="experiment-data/conditions.js"></script>
+    <script type="text/javascript" src="experiment-data/distractors.js"></script>
+    <script type="text/javascript" src="experiment-data/trials.js"></script>
+    <link href="jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"/>
+
+  </head>
+  <body>
+  </body>
+
+  <script>
+
+    var ID = window.prompt("Enter your participant ID:")
+
+    
+    while (!Object.keys(conditions).includes(ID)) {
+
+	var ID = window.prompt("ID not found. Please check again, or contact the experimenter.")
+
+    }
+
+    var condition = conditions[ID]
+
+    jsPsych.data.addProperties({subject: ID,
+				condition: condition})
+		       
+
+    // Setup the random names
+    var names = ["Liam","Noah","William","James","Oliver","Benjamin","Elija","Lucas","Mason","Logan"]
+    names = jsPsych.randomization.shuffle(names)
+    names = names.slice(0, 5)
+    var names_rand = jsPsych.randomization.shuffle(names)
+
+    var assignments = {"A": names[0],
+		       "B": names[1],
+		       "C": names[1],
+		       "D": names[1],
+		       "E": names[1]}
+		       
+    // Structure and assemble the experiment.
+
+    timeline = []
+
+    
+    var influences_int = {type: "html-keyboard-response",
+			  choices: [32],
+			  data: {label: "instructions"},
+			  stimulus: `<p style='text-align:left'>This study is about memory for social groups. There are five people involved:</p>
+<p> ${names_rand.join(" ")}</p>
+<p style='text-align:left'>Your job is to learn who influences who among these people. You will be shown sentences one at a time, each of the form "${names_rand[0] + ' influences ' + names_rand[1]}." For each sentence, indicate with a keypress whether the sentence is true. If you think that the sentence is true, then you would press F. Otherwise, you would press J. After you guess, you will be told whether you are correct or not. You will go through many sentences in this way until you successfully learn the relationships. Take your time, don’t rush, and make sure to try to understand the sentences, as that is the best way to learn.
+
+<p>Press spacebar to continue</p>`
+
+			 }
+
+    var meaningless_int = {type: "html-keyboard-response",
+			   choices: [32],
+			   data: {label: "instructions"},
+			  stimulus: `<p style='text-align:left'>This study is about memory. You will learn to respond to pairs of names. There are five names involved:</p>
+<p> ${names_rand.join(" ")}</p>
+<p style='text-align:left'> You will be shown pairs of names one at a time, each of the form "${names_rand[0] + ' ' + names_rand[1]}." Some pairs are special. For each pair, press F if you think it is special, and press J if you think it is not. After you guess, you will be told whether you are correct. You will go through many pairs this way until you succesfully learn the responses. Take your time and don't rush, as that is the best way to learn.</p>
+
+<p>Press spacebar to continue</p>`
+
+			 }
+
+
+    if (condition == "influences") {timeline.push(influences_int)}
+    else {timeline.push(meaningless_int)}
+
+    cum_response = []
+    timeline.push(block_loop)
+    timeline.push(distractor_block)
+
+        var free_recall = {type: "survey-text",
+			   questions: [{prompt: "<p>Now we would like you remember the names of the people that you just learned about. Please recall the names of the people and record them in the order you remember them.</p>",
+					rows: 5}]}
+
+    timeline.push(free_recall)
+    
+    var influences_test_int = {type: "html-keyboard-response",
+			     choices: [32],
+			     data: {label: "instructions"},
+			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
+			      }
+
+    var meaningless_test_int = {type: "html-keyboard-response",
+			     choices: [32],
+			     data: {label: "instructions"},
+			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the pairs in the first part of the experiment will be tested. You will be shown pairs one at a time. For each pair, press F it is special and J if it is not. Press spacebar to continue.</p>"
+			       }
+
+    if (condition == "influences") {timeline.push(influences_test_int)}
+    else {timeline.push(meaningless_test_int)}
+    
+    timeline.push(test)
+
+    // debriefing form
+    var debriefing = {type: "survey-text",
+		      questions: [{prompt: "What strategies, if any, did you use to memorize the items?", rows: 5, columns: 60},
+				  {prompt: "What strategies, if any, did you use to remember the names of the people?", rows: 5, columns: 60},
+				  {prompt: "What did you notice about the experiment?", rows: 5, columns: 60},
+				  {prompt: "What do you think this experiment was about?", rows: 5, columns: 60}
+				 ]
+		     }
+    
+    timeline.push(debriefing)
+    timeline = timeline.flat(5)
+
+    jsPsych.init({
+	timeline: timeline,
+	on_finish: function() {
+	    $.ajax({
+		type: "POST",
+		url: "/experiment-data",
+		data: jsPsych.data.get().json(),
+		contentType: "application/json"
+	    })
+		.done(function() {
+		    alert("Thank you!")
+		})
+		.fail(function() {
+		    alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
+		})
+	}
+    })
+
+    </script>
+</html>

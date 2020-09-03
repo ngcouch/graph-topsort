@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+
+    <script type="text/javascript" src="jsPsych/jspsych.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-text.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-html-slider-response.js"></script>
+    <script type="text/javascript" src="experiment-data/functions.js"></script>
+    <script type="text/javascript" src="experiment-data/networks.js"></script>
+    <script type="text/javascript" src="experiment-data/conditions.js"></script>
+    <script type="text/javascript" src="experiment-data/distractors.js"></script>
+    <link href="jsPsych/css/jspsych.css" rel="stylesheet" type="text/css"/>
+
+  </head>
+  <body>
+  </body>
+
+  <script>
+
+    var ID = window.prompt("Enter your participant ID:")
+
+    
+    while (!Object.keys(conditions).includes(ID)) {
+
+	var ID = window.prompt("ID not found. Please check again, or contact the experimenter.")
+
+    }
+
+    var condition = conditions[ID]
+
+    jsPsych.data.addProperties({subject: ID,
+				condition: condition})
+		       
+
+    // Setup the random names
+    var names = ["Liam","Noah","William","James","Oliver","Benjamin","Elija","Lucas","Mason","Logan"]
+    names = jsPsych.randomization.shuffle(names)
+
+    var names_1 = names.slice(0, 4)
+    var names1_rand = jsPsych.randomization.shuffle(names_1)
+
+    jsPsych.data.addProperties({names1: names_1})
+
+    var names_2 = names.slice(4, 8)
+    var names2_rand = jsPsych.randomization.shuffle(names_2)
+
+    jsPsych.data.addProperties({names2: names_2})
+
+    names = [names_1, names_2]
+    
+    // Structure and assemble the experiment.
+
+    timeline = []
+    networks = jsPsych.randomization.shuffle(networks)
+
+    var instructions_1 = {type: "html-keyboard-response",
+			  choices: [32],
+			  stimulus: `<p>This study is about how people learn about social groups. There are four people involved:<p>
+<p> ${names1_rand.join(" ")}</p>
+<p>Your job is to learn who ${networks[0].name} whom among these people. You will be shown sentences one at a time, each of the form "${names1_rand[0] + ' ' + networks[0].name + ' ' + names1_rand[1]}." For each sentence, indicate with a keypress whether the sentence is true. If you think that the sentence is true, then you would press F. Otherwise, you would press J. After you guess, you will be told whether you are correct or not. You will go through many sentences in this way until you successfully learn the relationships. Take your time, don’t rush, and make sure to try to understand the sentences, as that is the best way to learn them.`
+
+			 }
+
+    timeline.push(instructions_1)
+
+    var network_1
+
+    jsPsych.init({
+	timeline: timeline,
+	on_finish: function() {
+	    $.ajax({
+		type: "POST",
+		url: "/experiment-data",
+		data: jsPsych.data.get().json(),
+		contentType: "application/json"
+	    })
+		.done(function() {
+		    alert("Thank you!")
+		})
+		.fail(function() {
+		    alert("A problem occurred while writing to the database. Please contact the researcher for more information.")
+		})
+	}
+    })
+
+    </script>
+</html>

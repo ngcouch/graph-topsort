@@ -1,0 +1,31 @@
+var likes = {name: "likes",
+		  props: [['A','B',true,"likes"],
+			  ['A','C',false,"likes"],
+			  ['A','D',false,"likes"],
+			  ['B','A',true,"likes"],
+			  ['B','C',true,"likes"],
+			  ['B','D',false,"likes"],
+			  ['C','A',false,"likes"],
+			  ['C','B',true,"likes"],
+			  ['C','D',true,"likes"],
+			  ['D','A',false,"likes"],
+			  ['D','B',false,"likes"],
+			  ['D','C',true,"likes"]]
+		 }
+
+var influences = {name: "influences",
+		  props: [['A','B',true,"influences"],
+			  ['A','C',true,"influences"],
+			  ['A','D',true,"influences"],
+			  ['B','A',false,"influences"],
+			  ['B','C',true,"influences"],
+			  ['B','D',true,"influences"],
+			  ['C','A',false,"influences"],
+			  ['C','B',false,"influences"],
+			  ['C','D',true,"influences"],
+			  ['D','A',false,"influences"],
+			  ['D','B',false,"influences"],
+			  ['D','C',false,"influences"]]
+		 }
+
+var networks = [likes, influences]
