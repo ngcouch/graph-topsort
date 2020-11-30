@@ -9,7 +9,8 @@ var learning_trial = {
 	     var Y = jsPsych.timelineVariable('Y', true)
 
 	     // assign a relation or null
-	     if (condition == "influences") {var relation = "influences"}
+	     if (condition == "causal") {var relation = "causes the production of"}
+	     else if (condition == "geneological") {var relation = "is the parent of"}
 	     else {var relation = ""}
 
 	     // Apply the labels 
@@ -130,7 +131,8 @@ var test_trial = {
 	Y = jsPsych.timelineVariable('Y', true)
 
 	// assign a relation or null
-	if (condition == "influences") {var relation = "influences"}
+	if (condition == "causal") {var relation = "causes the production of"}
+	else if (condition == "geneological") {var relation = "is the parent of"}
 	else {var relation = ""}
 
 	// Apply the labels 

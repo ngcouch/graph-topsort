@@ -1,4 +1,3 @@
-var conditions = {1: "influences",
-		  2: "meainglesss",
-		  3: "influences",
-		  4: "meaningless"}
+var conditions = {1: "causal",
+		  2: "geneological",
+		  3: "meaningless"}

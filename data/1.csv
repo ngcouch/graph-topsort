@@ -1,0 +1,22 @@
+"rt","stimulus","key_press","label","trial_type","trial_index","time_elapsed","internal_node_id","subject","condition","order","sub","obj","correct","responses","question_order","answer"
+341.0950000397861,"<p style='text-align:left'>This study is about memory for social groups. There are five people involved:</p>
+<p> William Lucas Oliver Benjamin James</p>
+<p style='text-align:left'>Your job is to learn who influences who among these people. You will be shown sentences one at a time, each of the form ""William influences Lucas."" For each sentence, indicate with a keypress whether the sentence is true. If you think that the sentence is true, then you would press F. Otherwise, you would press J. After you guess, you will be told whether you are correct or not. You will go through many sentences in this way until you successfully learn the relationships. Take your time, don’t rush, and make sure to try to understand the sentences, as that is the best way to learn.
+
+<p>Press spacebar to continue</p>",32,"instructions","html-keyboard-response",0,345,"0.0-0.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+863.3599999593571,"<p>Lucas influences Oliver</p>",70,"learning","html-keyboard-response",1,1211,"0.0-1.0-0.0-0.0-0.0","1","influences","Oliver,Lucas,Benjamin,William,James","B","A",false,,,
+,"<p style='color:red'>Incorrect!</p>",,"feedback","html-keyboard-response",2,2716,"0.0-1.0-0.0-0.0-1.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+357.36000002361834,"<p>Oliver influences Lucas</p>",70,"learning","html-keyboard-response",3,3075,"0.0-1.0-0.0-0.1-0.1","1","influences","Oliver,Lucas,Benjamin,William,James","A","B",true,,,
+,"<p style='color:blue'>Correct!</p>",,"feedback","html-keyboard-response",4,3576,"0.0-1.0-0.0-0.1-1.1","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+719.3799999076873,"<p>Lucas influences Oliver</p>",74,"learning","html-keyboard-response",5,4297,"0.0-1.1-0.1-0.2-0.2","1","influences","Oliver,Lucas,Benjamin,William,James","B","A",true,,,
+,"<p style='color:blue'>Correct!</p>",,"feedback","html-keyboard-response",6,4801,"0.0-1.1-0.1-0.2-1.2","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+325.45000000391155,"<p>Oliver influences Lucas</p>",70,"learning","html-keyboard-response",7,5128,"0.0-1.1-0.1-0.3-0.3","1","influences","Oliver,Lucas,Benjamin,William,James","A","B",true,,,
+,"<p style='color:blue'>Correct!</p>",,"feedback","html-keyboard-response",8,5629,"0.0-1.1-0.1-0.3-1.3","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+333.1349999643862,"<p style='text-align:left'>In this portion of the experiment, you will complete a few short math problems. These problems do not require the use of a calculator, though you may use one if you wish, along with a pen or pencil and some paper. Do not use the Internet. Take your time, and make sure your answers reflect your best effort.</p><p>Press spacebar to continue.</p>",32,"instructions","html-keyboard-response",9,5963,"0.0-2.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+1018.4400000143796,,,"distractor","survey-multi-choice",10,6984,"0.0-3.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,"{""Q0"":""""}","[0]","1"
+380.2600000053644,,,"distractor","survey-multi-choice",11,7366,"0.0-4.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,"{""Q0"":""""}","[0]","0"
+977.4049998959526,,,,"survey-text",12,8352,"0.0-5.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,"{""Q0"":""""}",,
+551.1900000274181,"<p style='text-align:left'>In this portion of the experiment, your memory for the relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>",32,"instructions","html-keyboard-response",13,8904,"0.0-6.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,,,
+401.42999996896833,"<p>Oliver influences Lucas</p>",70,"test","html-keyboard-response",14,9306,"0.0-7.0-0.0","1","influences","Oliver,Lucas,Benjamin,William,James","A","B",true,,,
+184.39000006765127,"<p>Lucas influences Oliver</p>",70,"test","html-keyboard-response",15,9492,"0.0-7.0-0.1","1","influences","Oliver,Lucas,Benjamin,William,James","B","A",false,,,
+892.2100000781938,,,,"survey-text",16,10387,"0.0-8.0","1","influences","Oliver,Lucas,Benjamin,William,James",,,,"{""Q0"":"""",""Q1"":"""",""Q2"":"""",""Q3"":""""}",,

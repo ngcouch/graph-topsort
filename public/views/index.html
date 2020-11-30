@@ -5,6 +5,7 @@
 
     <script type="text/javascript" src="jsPsych/jspsych.js"></script>
     <script type="text/javascript" src="jsPsych/plugins/jspsych-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="jsPsych/plugins/jspsych-html-button-response.js"></script>
     <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-multi-choice.js"></script>
     <script type="text/javascript" src="jsPsych/plugins/jspsych-survey-text.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -33,84 +34,104 @@
 
     var condition = conditions[ID]
 
-    jsPsych.data.addProperties({subject: ID,
-				condition: condition})
-		       
-
     // Setup the random names
-    var names = ["Liam","Noah","William","James","Oliver","Benjamin","Elija","Lucas","Mason","Logan"]
-    names = jsPsych.randomization.shuffle(names)
-    names = names.slice(0, 5)
-    var names_rand = jsPsych.randomization.shuffle(names)
+    var nodes = ["QUD", "HUS", "AUS","KAB","YOB","RUS","POS"]
+    nodes = jsPsych.randomization.shuffle(nodes)
 
-    var assignments = {"A": names[0],
-		       "B": names[1],
-		       "C": names[1],
-		       "D": names[1],
-		       "E": names[1]}
-		       
+    var assignments = {"A": nodes[0],
+		       "B": nodes[1],
+		       "C": nodes[2],
+		       "D": nodes[3],
+		       "E": nodes[4],
+		       "F": nodes[5],
+		       "G": nodes[6]}
+
+    // Add data to the trial object
+    jsPsych.data.addProperties({subject: ID,
+				condition: condition,
+				order: nodes.toString()})
+
+    
     // Structure and assemble the experiment.
 
     timeline = []
 
     
-    var influences_int = {type: "html-keyboard-response",
-			  choices: [32],
+    var causal_int = {type: "html-button-response",
+			  choices: ["Continue"],
 			  data: {label: "instructions"},
-			  stimulus: `<p style='text-align:left'>This study is about memory for social groups. There are five people involved:</p>
-<p> ${names_rand.join(" ")}</p>
-<p style='text-align:left'>Your job is to learn who influences who among these people. You will be shown sentences one at a time, each of the form "${names_rand[0] + ' influences ' + names_rand[1]}." For each sentence, indicate with a keypress whether the sentence is true. If you think that the sentence is true, then you would press F. Otherwise, you would press J. After you guess, you will be told whether you are correct or not. You will go through many sentences in this way until you successfully learn the relationships. Take your time, don’t rush, and make sure to try to understand the sentences, as that is the best way to learn.
-
-<p>Press spacebar to continue</p>`
+			  stimulus: `<p style='text-align:left'>This study is about memory for the causes and effects regulating the production of hormones in an alien species. There are seven hormones involved:</p>
+<p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
+<p style='text-align:left'>You will be shown sentences one at a time, each of the form "The presence of X causes the production of Y", where X and Y are hormones that the alien produces. For each sentence, indicate with a keypress whether you think the sentence is true. If you think that it is true, press F. If you think that it is false, press J. After you guess, you will be told whether you are correct. You will go through many sentenes this way until you successfully learn the relationships. Take your time, don't rush, and make sure to understand the sentences, as that is the best way to learn them.</p>`
 
 			 }
 
-    var meaningless_int = {type: "html-keyboard-response",
-			   choices: [32],
+    var geneological_int = {type: "html-button-response",
+			   choices: ["Continue"],
 			   data: {label: "instructions"},
-			  stimulus: `<p style='text-align:left'>This study is about memory. You will learn to respond to pairs of names. There are five names involved:</p>
-<p> ${names_rand.join(" ")}</p>
-<p style='text-align:left'> You will be shown pairs of names one at a time, each of the form "${names_rand[0] + ' ' + names_rand[1]}." Some pairs are special. For each pair, press F if you think it is special, and press J if you think it is not. After you guess, you will be told whether you are correct. You will go through many pairs this way until you succesfully learn the responses. Take your time and don't rush, as that is the best way to learn.</p>
+			  stimulus: `<p style='text-align:left'>This study is about memory for a family of aliens: There are seven aliens involved:</p>
+<p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
+<p style='text-align:left'> You will be shown sentences one at a time, each of the form "X is the parent of Y," where X and Y are aliens. For each sentence, indicate with a keypress whether you think the sentence is true. If you think that it is true, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many sentences in this way until you succesffully learn the relationships. Take your time, don't rush, and make sure to try to understand the sentences, as that is the best way to learn them.</p>`
 
-<p>Press spacebar to continue</p>`
+			   }
 
-			 }
+    
+    var meaningless_int = {type: "html-button-response",
+			   choices: ["Continue"],
+			   data: {label: "instructions"},
+			  stimulus: `<p style='text-align:left'>This study is about memory for parirs of syllables. There are seven syllables involved:</p>
+<p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
+<p style='text-align:left'> You will be shown pairs of syllabes one at a time, each of the form "X Y" where X and Y are syllables. Some pairs are special. If you think that it is special, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many pairs in this way until you successfully learn the responses. Take your time and don't rush, as that is the best way to learn.</p>`}
 
-
-    if (condition == "influences") {timeline.push(influences_int)}
+    if (condition == "causal") {timeline.push(causal_int)}
+    else if (condition == "geneological") {timeline.push(geneological_int)}
     else {timeline.push(meaningless_int)}
 
     cum_response = []
     timeline.push(block_loop)
     timeline.push(distractor_block)
 
-        var free_recall = {type: "survey-text",
-			   questions: [{prompt: "<p>Now we would like you remember the names of the people that you just learned about. Please recall the names of the people and record them in the order you remember them.</p>",
+    var node_nouns = {"causal" : "names of the hormones",
+		      "geneological": "names of the aliens",
+		      "meaningless": "syllables"}
+    
+    var free_recall = {type: "survey-text",
+			   questions: [{prompt: `<p>Now we would like you remember the ${node_nouns[condition]} that you just learned about. Please recall the ${node_nouns[condition]} and record them in the order you remember them.</p>`,
 					rows: 5}]}
 
     timeline.push(free_recall)
     
-    var influences_test_int = {type: "html-keyboard-response",
-			     choices: [32],
+    var causal_test_int = {type: "html-button-response",
+			     choices: ["Continue"],
 			     data: {label: "instructions"},
-			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
+			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the causal relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
 			      }
 
-    var meaningless_test_int = {type: "html-keyboard-response",
-			     choices: [32],
+    var geneological_test_int = {type: "html-button-response",
+			     choices: ["Continue"],
+			     data: {label: "instructions"},
+			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the geneological relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
+			      }
+
+    var meaningless_test_int = {type: "html-button-response",
+			     choices: ["Continue"],
 			     data: {label: "instructions"},
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the pairs in the first part of the experiment will be tested. You will be shown pairs one at a time. For each pair, press F it is special and J if it is not. Press spacebar to continue.</p>"
 			       }
 
-    if (condition == "influences") {timeline.push(influences_test_int)}
+    if (condition == "causal") {timeline.push(causal_test_int)}
+    else if (condition == "geneological") {timeline.push(geneological_test_int)}
     else {timeline.push(meaningless_test_int)}
     
     timeline.push(test)
 
+   if (condition=='meaningless') {var item_name = 'pairs'}
+	else {var item_name = 'sentences'}
+    
     // debriefing form
     var debriefing = {type: "survey-text",
-		      questions: [{prompt: "What strategies, if any, did you use to memorize the items?", rows: 5, columns: 60},
-				  {prompt: "What strategies, if any, did you use to remember the names of the people?", rows: 5, columns: 60},
+		      questions: [{prompt: `What strategies, if any, did you use to memorize the ${item_name}?`, rows: 5, columns: 60},
+				  {prompt: `What strategies, if any, did you use to remember the ${node_nouns[condition]}?`, rows: 5, columns: 60},
 				  {prompt: "What did you notice about the experiment?", rows: 5, columns: 60},
 				  {prompt: "What do you think this experiment was about?", rows: 5, columns: 60}
 				 ]

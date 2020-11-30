@@ -1,7 +1,10 @@
 // --- LOADING MODULES
 var express = require('express'),
     body_parser = require('body-parser'),
-    MongoClient = require('mongodb').MongoClient;
+    redis = require('redis'),
+    rejson = require('redis-json')
+
+
 
 // --- INSTANTIATE THE APP
 var app = express();
@@ -23,7 +26,7 @@ app.get('/', function(request, response) {
 });
 
 // --- START THE SERVER 
-var server = app.listen(process.env.PORT, function(){
+var server = app.listen(process.env.PORT || 51746, function(){
     console.log("Listening on port %d", server.address().port);
 });
 
@@ -31,31 +34,22 @@ var server = app.listen(process.env.PORT, function(){
 
 app.post('/experiment-data', function(request, response) {
 
-     var username = process.env.ORMONGO_USER;
-    var password = process.env.ORMONGO_PASS;
-    var hosts = 'iad2-c12-1.mongo.objectrocket.com:52499,iad2-c12-2.mongo.objectrocket.com:52499,iad2-c12-0.mongo.objectrocket.com:52499';
-    var database = 'graph-topsort';
-    var options = '?replicaSet=18d6e0cdbb894d2293da62eaab115acd';
-    var connectionString = 'mongodb://' + username + ':' + password + '@' + hosts + '/' + database + options;
-
-    var data = request.body
-
-    MongoClient.connect(connectionString, function(err, db) {
-    if (err) {
-        console.log('Error: ', err);
-	console.log(data)
-    } else {
-        console.log('Connected!');
-	
-	var collection = db.db('graph-topsort-json').collection("data");
-	collection.insertMany(data, function(err, res) {
-
-	    if (err) throw err;
-	    console.log("Data inserted");
-	    db.close();
-	})
-    }
+    var client = redis.createClient()
+    client.on('connect', function() {
+	console.log('connected');
     });
+    
+    var data = request.body
+    var PID  = data[0].subject
+
+    if (!client.exists(PID)) {
+
+	var flat = JSON.stringify(data)
+	client.set(PID, flat)
+
+	console.log("Data logged")
+
+    }
 
     response.end("")
   
