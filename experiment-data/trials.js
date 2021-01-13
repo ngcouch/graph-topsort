@@ -20,6 +20,15 @@ var learning_trial = {
 	     return network_stim(X, Y, relation)
 
 	 },
+	 prompt: function() {
+	     if (condition == "causal" || condition == "geneological")
+	     {
+		 return "<small>Press F for TRUE and J for FALSE.</small>"
+	     }
+	     else {
+		 return "<small>Press F if special and J if not.</small>"
+	     }
+	 },
 	 data: {label: "learning",
 		sub: function() {return jsPsych.timelineVariable('X', true)},
 		obj: function() {return jsPsych.timelineVariable('Y', true)},
@@ -56,14 +65,37 @@ var learning_trial = {
 	 data: {label: "feedback"},
 	 stimulus: function() {
 
+	     var X = jsPsych.timelineVariable('X', true)
+	     var Y = jsPsych.timelineVariable('Y', true)
+	     
+	     // assign a relation or null
+	     if (condition == "causal") {var relation = "causes the production of"}
+	     else if (condition == "geneological") {var relation = "is the parent of"}
+	     else {var relation = ""}
+	     
+	     // Apply the labels 
+	     X = assignments[X]
+	     Y = assignments[Y]
+	     
+	     var stim = network_stim(X, Y, relation)
+
+	     var valence = jsPsych.timelineVariable('valence', true)
+
+	     if (condition == "meaningless") {
+
+		 if (valence) {valence = "special"}
+		 else {valence = "not special"}
+
+	     }
+
 	     if(jsPsych.data.get().last(1).values()[0].correct) {
 
-		 return "<p style='color:blue'>Correct!</p>"
+		 return `<p style='color:blue'>Correct!</p><p>${stim} is ${valence}.</p>`
 
 	     }
 	     else {
 
-		 return "<p style='color:red'>Incorrect!</p>"
+		 return `<p style='color:red'>Incorrect!</p><p>${stim} is ${valence}.</p>`
 		 
 	     } 
 
@@ -72,13 +104,13 @@ var learning_trial = {
 	 trial_duration: function() {
 
 	     if(jsPsych.data.get().last(1).values()[0].correct) {
-
-		 return 500
+		 
+		 return 2000
 
 	     }
 	     else {
 
-		 return 1500
+		 return 3000
 		 
 	     }
 
@@ -144,6 +176,15 @@ var test_trial = {
     data: {sub: function() {return jsPsych.timelineVariable('X', true)},
 	   obj: function() {return jsPsych.timelineVariable('Y', true)},
 	   label: "test"},
+    prompt: function() {
+	if (condition == "causal" || condition == "geneological")
+	{
+	    return "<small>Press F for TRUE and J for FALSE.</small>"
+	}
+	else {
+	    return "<small>Press F if special and J if not.</small>"
+	     }
+    },
     choices: [70, 74],
     on_finish: function(data) {
 	
