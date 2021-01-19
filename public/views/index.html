@@ -128,16 +128,6 @@
    if (condition=='meaningless') {var item_name = 'pairs'}
 	else {var item_name = 'sentences'}
     
-    // debriefing form
-    var debriefing = {type: "survey-text",
-		      questions: [{prompt: `What strategies, if any, did you use to memorize the ${item_name}?`, rows: 5, columns: 60},
-				  {prompt: `What strategies, if any, did you use to remember the ${node_nouns[condition]}?`, rows: 5, columns: 60},
-				  {prompt: "What did you notice about the experiment?", rows: 5, columns: 60},
-				  {prompt: "What do you think this experiment was about?", rows: 5, columns: 60}
-				 ]
-		     }
-    
-    timeline.push(debriefing)
     timeline = timeline.flat(5)
 
     jsPsych.init({
