@@ -143,7 +143,7 @@
 	    $.ajax({
 		type: "POST",
 		url: "/experiment-data",
-		data: jsPsych.data.get().filter({desired: true}).json(),
+		data: jsPsych.data.get().json(),
 		contentType: "application/json"
 	    })
 		.done(function() {
