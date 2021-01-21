@@ -2,7 +2,6 @@
 var learning_trial = {
     timeline: [
 	{type: "html-keyboard-response",
-	 desired: false,
 	 stimulus: function() {
 
 	     // Retrieve the relation
@@ -31,6 +30,7 @@ var learning_trial = {
 	     }
 	 },
 	 data: {label: "learning",
+		desired: false,
 		sub: function() {return jsPsych.timelineVariable('X', true)},
 		obj: function() {return jsPsych.timelineVariable('Y', true)},
 	       },
@@ -64,7 +64,6 @@ var learning_trial = {
 	},
 	{type: "html-keyboard-response",
 	 data: {label: "feedback"},
-	 desired: false,
 	 stimulus: function() {
 
 	     var X = jsPsych.timelineVariable('X', true)
@@ -102,7 +101,8 @@ var learning_trial = {
 	     } 
 
 	 },
-	 data: {label: "feedback"},
+	 data: {label: "feedback",
+		desired: false},
 	 trial_duration: function() {
 
 	     if(jsPsych.data.get().last(1).values()[0].correct) {
@@ -159,7 +159,6 @@ var block_loop = {
 // create final block of test trials
 var test_trial = {
     type: "html-keyboard-response",
-    desired: true,
     stimulus: function() {
 	
 	X = jsPsych.timelineVariable('X', true)
@@ -178,7 +177,8 @@ var test_trial = {
     },
     data: {sub: function() {return jsPsych.timelineVariable('X', true)},
 	   obj: function() {return jsPsych.timelineVariable('Y', true)},
-	   label: "test"},
+	   label: "test",
+	   desired: true},
     prompt: function() {
 	if (condition == "causal" || condition == "geneological")
 	{

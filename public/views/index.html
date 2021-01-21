@@ -58,9 +58,9 @@
 
     
     var causal_int = {type: "html-button-response",
-		      desired: false,
 			  choices: ["Continue"],
-			  data: {label: "instructions"},
+		      data: {label: "instructions",
+			     desired: false},
 			  stimulus: `<p style='text-align:left'>This study is about memory for the causes and effects regulating the production of hormones in an alien species. There are seven hormones involved:</p>
 <p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
 <p style='text-align:left'>You will be shown sentences one at a time, each of the form "X causes the production of Y", where X and Y are hormones that the alien produces. For each sentence, indicate with a keypress whether you think the sentence is true. If you think that it is true, press F. If you think that it is false, press J. After you guess, you will be told whether you are correct. You will go through many sentenes this way until you successfully learn the relationships. Take your time, don't rush, and make sure to understand the sentences, as that is the best way to learn them.</p>`
@@ -68,9 +68,9 @@
 			 }
 
     var geneological_int = {type: "html-button-response",
-			    desired: false,
 			   choices: ["Continue"],
-			   data: {label: "instructions"},
+			    data: {label: "instructions",
+				   desired: false},
 			  stimulus: `<p style='text-align:left'>This study is about memory for a family of aliens: There are seven aliens involved:</p>
 <p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
 <p style='text-align:left'> You will be shown sentences one at a time, each of the form "X is the parent of Y," where X and Y are aliens. For each sentence, indicate with a keypress whether you think the sentence is true. If you think that it is true, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many sentences in this way until you succesffully learn the relationships. Take your time, don't rush, and make sure to try to understand the sentences, as that is the best way to learn them.</p>`
@@ -79,9 +79,9 @@
 
     
     var meaningless_int = {type: "html-button-response",
-			   desired: false,
 			   choices: ["Continue"],
-			   data: {label: "instructions"},
+			   data: {label: "instructions",
+				  desired: false},
 			  stimulus: `<p style='text-align:left'>This study is about memory for parirs of syllables. There are seven syllables involved:</p>
 <p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
 <p style='text-align:left'> You will be shown pairs of syllabes one at a time, each of the form "X Y" where X and Y are syllables. Some pairs are special. If you think that it is special, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many pairs in this way until you successfully learn the responses. Take your time and don't rush, as that is the best way to learn.</p>`}
@@ -99,30 +99,32 @@
 		      "meaningless": "syllables"}
     
     var free_recall = {type: "survey-text",
-		       desired: true,
+		       data: {desired: true},
 			   questions: [{prompt: `<p>Now we would like you remember the ${node_nouns[condition]} that you just learned about. Please recall the ${node_nouns[condition]} and record them in the order you remember them.</p>`,
 					rows: 5}]}
 
     timeline.push(free_recall)
     
     var causal_test_int = {type: "html-button-response",
-			   desired: false,
 			     choices: ["Continue"],
-			     data: {label: "instructions"},
+			   data: {label: "instructions",
+				  desired: false
+				 },
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the causal relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
 			      }
 
     var geneological_test_int = {type: "html-button-response",
-				 desired: false,
 			     choices: ["Continue"],
-			     data: {label: "instructions"},
+				 data: {label: "instructions",
+				       	desired: false
+				       },
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the geneological relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
 			      }
 
     var meaningless_test_int = {type: "html-button-response",
-				desired: false,
 			     choices: ["Continue"],
-			     data: {label: "instructions"},
+				data: {label: "instructions",
+				       desired: false},
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the pairs in the first part of the experiment will be tested. You will be shown pairs one at a time. For each pair, press F it is special and J if it is not. Press spacebar to continue.</p>"
 			       }
 
@@ -143,7 +145,7 @@
 	    $.ajax({
 		type: "POST",
 		url: "/experiment-data",
-		data: jsPsych.data.get().json(),
+		data: jsPsych.data.get().filter({desired: true}).json(),
 		contentType: "application/json"
 	    })
 		.done(function() {
