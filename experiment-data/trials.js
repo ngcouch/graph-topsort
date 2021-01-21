@@ -2,6 +2,7 @@
 var learning_trial = {
     timeline: [
 	{type: "html-keyboard-response",
+	 desired: false,
 	 stimulus: function() {
 
 	     // Retrieve the relation
@@ -63,6 +64,7 @@ var learning_trial = {
 	},
 	{type: "html-keyboard-response",
 	 data: {label: "feedback"},
+	 desired: false,
 	 stimulus: function() {
 
 	     var X = jsPsych.timelineVariable('X', true)
@@ -157,6 +159,7 @@ var block_loop = {
 // create final block of test trials
 var test_trial = {
     type: "html-keyboard-response",
+    desired: true,
     stimulus: function() {
 	
 	X = jsPsych.timelineVariable('X', true)

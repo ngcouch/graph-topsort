@@ -58,6 +58,7 @@
 
     
     var causal_int = {type: "html-button-response",
+		      desired: false,
 			  choices: ["Continue"],
 			  data: {label: "instructions"},
 			  stimulus: `<p style='text-align:left'>This study is about memory for the causes and effects regulating the production of hormones in an alien species. There are seven hormones involved:</p>
@@ -67,6 +68,7 @@
 			 }
 
     var geneological_int = {type: "html-button-response",
+			    desired: false,
 			   choices: ["Continue"],
 			   data: {label: "instructions"},
 			  stimulus: `<p style='text-align:left'>This study is about memory for a family of aliens: There are seven aliens involved:</p>
@@ -77,6 +79,7 @@
 
     
     var meaningless_int = {type: "html-button-response",
+			   desired: false,
 			   choices: ["Continue"],
 			   data: {label: "instructions"},
 			  stimulus: `<p style='text-align:left'>This study is about memory for parirs of syllables. There are seven syllables involved:</p>
@@ -96,24 +99,28 @@
 		      "meaningless": "syllables"}
     
     var free_recall = {type: "survey-text",
+		       desired: true,
 			   questions: [{prompt: `<p>Now we would like you remember the ${node_nouns[condition]} that you just learned about. Please recall the ${node_nouns[condition]} and record them in the order you remember them.</p>`,
 					rows: 5}]}
 
     timeline.push(free_recall)
     
     var causal_test_int = {type: "html-button-response",
+			   desired: false,
 			     choices: ["Continue"],
 			     data: {label: "instructions"},
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the causal relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
 			      }
 
     var geneological_test_int = {type: "html-button-response",
+				 desired: false,
 			     choices: ["Continue"],
 			     data: {label: "instructions"},
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the geneological relationships in the first part of the experiment will be tested. You will be shown sentences one at a time. For each sentence, press F it is true and J if it is false. Press spacebar to continue.</p>"
 			      }
 
     var meaningless_test_int = {type: "html-button-response",
+				desired: false,
 			     choices: ["Continue"],
 			     data: {label: "instructions"},
 			       stimulus: "<p style='text-align:left'>In this portion of the experiment, your memory for the pairs in the first part of the experiment will be tested. You will be shown pairs one at a time. For each pair, press F it is special and J if it is not. Press spacebar to continue.</p>"
@@ -136,7 +143,7 @@
 	    $.ajax({
 		type: "POST",
 		url: "/experiment-data",
-		data: jsPsych.data.get().json(),
+		data: jsPsych.data.get().filter({desired: true}).json(),
 		contentType: "application/json"
 	    })
 		.done(function() {
