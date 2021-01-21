@@ -38,6 +38,8 @@ app.post('/experiment-data', function(request, response) {
     client.on('connect', function() {
 	console.log('connected');
     });
+
+    console.log(request.body)
     
     var data = request.body
     var PID  = data[0].subject
