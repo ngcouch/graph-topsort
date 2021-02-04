@@ -90,7 +90,8 @@
     else if (condition == "geneological") {timeline.push(geneological_int)}
     else {timeline.push(meaningless_int)}
 
-    cum_response = []
+    var cum_response = []
+    var block_accuracies = []
     timeline.push(block_loop)
     timeline.push(distractor_block)
 
@@ -142,6 +143,9 @@
     jsPsych.init({
 	timeline: timeline,
 	on_finish: function() {
+
+	    jsPsych.data.addProperties({block_accuracies: block_accuracies})
+
 	    $.ajax({
 		type: "POST",
 		url: "/experiment-data",

@@ -36,7 +36,7 @@ var learning_trial = {
 	       },
 	 choices: [70, 74],
 	 on_finish: function(data) {
-	     
+
 	     var response = data.key_press
 	     var valence = jsPsych.timelineVariable('valence', true)
 	     
@@ -60,6 +60,7 @@ var learning_trial = {
 		 data.correct = false
 		 
 	     }
+
 	 }
 	},
 	{type: "html-keyboard-response",
@@ -140,6 +141,11 @@ var block_loop = {
 
 	var last_block = cum_response.slice((cum_response.length-network.length), cum_response.length)
 	var sum = last_block.reduce((a, b) => a+b, false)
+
+	var accuracy = sum/network.length
+
+	console.log(block_accuracies)
+	block_accuracies.push(accuracy)
 	
 	if (sum < network.length) {
 	    
@@ -151,6 +157,7 @@ var block_loop = {
 	    return false
 	    
 	}
+	
     }
 
 }
@@ -195,22 +202,19 @@ var test_trial = {
 	var valence = jsPsych.timelineVariable('valence', true)
 	
 	if (response == 70 && valence==true) {
-	    
-	    cum_response.push(true)
+
 	    data.correct = true
 	    
 	}
 	
 	else if (response == 74 && valence==false) {
 	    
-	    cum_response.push(true)
 	    data.correct = true
 	    
 	}
 	
 	else {
-	    
-	    cum_response.push(false)
+	  
 	    data.correct = false
 	    
 	}
