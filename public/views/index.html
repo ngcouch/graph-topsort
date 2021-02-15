@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -76,19 +77,26 @@
 <p style='text-align:left'> You will be shown sentences one at a time, each of the form "X is the parent of Y," where X and Y are aliens. For each sentence, indicate with a keypress whether you think the sentence is true. If you think that it is true, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many sentences in this way until you succesffully learn the relationships. Take your time, don't rush, and make sure to try to understand the sentences, as that is the best way to learn them.</p>`
 
 			   }
-
     
     var meaningless_int = {type: "html-button-response",
 			   choices: ["Continue"],
 			   data: {label: "instructions",
 				  desired: false},
-			  stimulus: `<p style='text-align:left'>This study is about memory for parirs of syllables. There are seven syllables involved:</p>
+			  stimulus: `<p style='text-align:left'>This study is about memory for pairs of syllables. There are seven syllables involved:</p>
 <p> ${jsPsych.randomization.shuffle(nodes).join(" ")}</p>
 <p style='text-align:left'> You will be shown pairs of syllabes one at a time, each of the form "X Y" where X and Y are syllables. Some pairs are special. If you think that it is special, press F. Otherwise, press J. After you guess, you will be told whether you are correct. You will go through many pairs in this way until you successfully learn the responses. Take your time and don't rush, as that is the best way to learn.</p>`}
 
     if (condition == "causal") {timeline.push(causal_int)}
     else if (condition == "geneological") {timeline.push(geneological_int)}
     else {timeline.push(meaningless_int)}
+
+    var notes_int = {type: "html-button-response",
+		     choices: ["Continue"],
+		     data: {labels: "instructions",
+			    desired: false},
+		     stimulus: "<p>We are interested in <b>your</b> memory. Please do not take notes or use external aids in any way.</p>"}
+
+    timeline.push(notes_int)
 
     var cum_response = []
     var block_accuracies = []
@@ -97,11 +105,11 @@
 
     var node_nouns = {"causal" : "names of the hormones",
 		      "geneological": "names of the aliens",
-		      "meaningless": "syllables"}
+		      "meaningless": "three letter syllables (not pairs of syllabes)"}
     
     var free_recall = {type: "survey-text",
 		       data: {desired: true},
-			   questions: [{prompt: `<p>Now we would like you remember the ${node_nouns[condition]} that you just learned about. Please recall the ${node_nouns[condition]} and record them in the order you remember them.</p>`,
+			   questions: [{prompt: `<p>Now we would like you remember the seven ${node_nouns[condition]} that you just learned about. Please recall the ${node_nouns[condition]} and record them in the order you remember them.</p>`,
 					rows: 5}]}
 
     timeline.push(free_recall)
