@@ -51,4 +51,5 @@ var conditions = {1584:"causal",
 		  1638:"meaningless",
 		  1467:"causal",
 		  1661:"geneological",
-		  1294:"meaningless"}
+		  1294:"meaningless",
+		  1530: "geneological"}
