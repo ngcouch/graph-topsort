@@ -42,7 +42,7 @@ var gas = {type: "survey-multi-choice",
 
 var city = {type: "survey-multi-choice",
 	    questions: [{prompt: "<p style='text-align:left;max-width:800px'>In planning maintenance for a city’s infrastructure, a civil engineer estimates that, starting from the present, the population of the city will decrease by 10 percent every 20 years. If the present population of the city is 50,000, which of the following expressions represents the engineer’s estimate of the population of the city <i>t</i> years from now?</p>",
-			 options: ["50,000(0.1)^(20<i>t</i>)", "50,000(0.1)^(20/<i>t</i>)" , "50,000(0.9)^(20<i>t</i>)" , "50,000(0.9)^(20/<i>t</i>)"]}],
+			 options: ["50,000(0.1)^(20<i>t</i>)", "50,000(0.1)^(20/<i>t</i>)" , "50,000(0.9)^(<i>t</i>/20)" , "50,000(0.9)^(20/<i>t</i>)"]}],
 	    data: {answer: "1",
 		   label: "distractor"}
 	   }
