@@ -1,0 +1,4 @@
+redis-cli --scan --pattern users:* |\
+grep -e "^users:[^:]*$" |\
+awk '{print "hmget " $0 " id display_name reputation location"}' |\
+redis-cli --csv > data.cs

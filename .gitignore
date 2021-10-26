@@ -20,3 +20,6 @@ data/1663.csv
 .DS_Store
 .DS_Store
 #app.js#
+#export.sh#
+.DS_Store
+experiment-data/.Rhistory
