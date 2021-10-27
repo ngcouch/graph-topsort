@@ -34,7 +34,7 @@ var server = app.listen(process.env.PORT || 51746, function(){
 
 app.post('/experiment-data', function(request, response) {
 
-    var client = redis.createClient(process.env.REDIS_TLS_URL)
+    var client = redis.createClient(process.env.REDISTOGO_URL)
     client.on('connect', function() {
 	console.log('connected');
     });
