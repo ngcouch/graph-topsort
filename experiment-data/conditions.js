@@ -26,4 +26,6 @@ var conditions = {2608 : "meaningless",
 2627 : "causal",
 2603 : "geneological",
 2705 : "meaningless"
-}
+		 }
+
+console.log(conditions)
