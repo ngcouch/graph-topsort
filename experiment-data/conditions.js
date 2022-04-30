@@ -26,5 +26,6 @@ var conditions = {
 2516 : "meaningless",
 2627 : "causal",
 2603 : "geneological",
-2705 : "meaningless"
+2705 : "meaningless",
+0000 : "meaningless"
 }
