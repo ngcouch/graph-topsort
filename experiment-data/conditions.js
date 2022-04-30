@@ -1,5 +1,4 @@
-var conditions = {
-  2608 : "meaningless",
+var conditions = {2608 : "meaningless",
 2611 : "causal",
 2570 : "geneological",
 2565 : "meaningless",
